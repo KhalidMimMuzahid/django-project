@@ -14,12 +14,12 @@ class RoomView(generics.CreateAPIView):
 class CreateRoomView(APIView):
     serializer_class = CreateRoomSerializer
 
-    def post(self, request, format=None):
+    def post(self, request, format=None):  
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
 
         serializer = self.serializer_class(data=request.data)
-        # print("check: ",request.data)
+        print("check: ",request.data)
         if serializer.is_valid():
             # print("check: ",request.data)
             guest_can_pause = serializer.data.get('guest_can_pause')

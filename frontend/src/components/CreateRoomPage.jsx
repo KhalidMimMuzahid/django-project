@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -16,7 +16,7 @@ const CreateRoomPage = () => {
     guestCanPause: true,
     votesToSkip: defaultVotes,
   });
-
+  const navigate = useNavigate();
   function handleVotesChange(e) {
     setState((prev) => {
       return { ...prev, votesToSkip: e.target.value };
@@ -45,9 +45,7 @@ const CreateRoomPage = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log({ data });
-        // this.props.history.push("/room/" + data.code);
-        // this.navigate("/room/" + data.code);
-        // return <Navigate to={"/room/" + data.code}></Navigate>;
+        navigate("/room/" + data?.code);
       });
   }
   return (

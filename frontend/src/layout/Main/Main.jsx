@@ -6,7 +6,16 @@ const Main = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <div
+        className=""
+        style={{
+          height: "90vh",
+        }}
+      >
+        <div className="center">
+          <Outlet />
+        </div>
+      </div>
       <Footer />
     </div>
   );

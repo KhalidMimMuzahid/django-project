@@ -2,9 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main/Main";
 import Error from "../pages/errorPage/Error";
 import Home from "../pages/home/Home";
-import Room from "../components/Room";
-import RoomJoinPage from "../components/RoomJoinPage";
-import CreateRoomPage from "../components/CreateRoomPage";
+import Room from "../pages/room/Room";
+import RoomJoinPage from "../pages/roomJoinPage/RoomJoinPage";
+import CreateRoomPage from "../pages/createRoomPage/CreateRoomPage";
 
 export const router = createBrowserRouter([
   {

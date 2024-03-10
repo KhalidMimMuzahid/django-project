@@ -10,27 +10,47 @@ from rest_framework.response import Response
 class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+class GetRoom(APIView):
+    serializer_class = RoomSerializer
+    lookup_url_kwarg = 'code'
+
+    def get(self, request, format=None):
+        code = request.GET.get(self.lookup_url_kwarg)
+        if code != None:
+            room = Room.objects.filter(code=code)
+            if len(room) > 0:
+                data = RoomSerializer(room[0]).data
+                data['is_host'] = self.request.session.session_key == room[0].host
+                return Response(data, status=status.HTTP_200_OK)
+            return Response({'Room Not Found': 'Invalid Room Code.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'Bad Request': 'Code paramater not found in request'}, status=status.HTTP_400_BAD_REQUEST)
 
 class CreateRoomView(APIView):
     serializer_class = CreateRoomSerializer
 
     def post(self, request, format=None):  
+        # print("checking: ",self.request.session.session_key)
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
-
+        # print("check: ",request.data) # // request.data is a data , that is passwd in body
         serializer = self.serializer_class(data=request.data)
-        print("check: ",request.data)
+        # print("check: ",serializer) 
+        # print("check: ",serializer.is_valid())
+
         if serializer.is_valid():
-            # print("check: ",request.data)
+            # print("check: ",serializer.data)
             guest_can_pause = serializer.data.get('guest_can_pause')
             votes_to_skip = serializer.data.get('votes_to_skip')
             host = self.request.session.session_key
             queryset = Room.objects.filter(host=host)
+
             if queryset.exists():
                 room = queryset[0]
                 room.guest_can_pause = guest_can_pause
                 room.votes_to_skip = votes_to_skip
                 room.save(update_fields=['guest_can_pause', 'votes_to_skip'])
+                # print("checking: ",RoomSerializer(queryset[0]).data,)
                 return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
             else:
                 room = Room(host=host, guest_can_pause=guest_can_pause,

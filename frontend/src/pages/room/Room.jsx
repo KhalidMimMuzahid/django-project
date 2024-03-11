@@ -55,8 +55,8 @@ const Room = () => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} align="center">
-        <Typography variant="h4" component="h4">
-          Code: {roomCodeState.roomCode}
+        <Typography variant="h5" component="h5">
+          Code: <span>{roomCode}</span>
         </Typography>
       </Grid>
       <Grid item xs={12} align="center">

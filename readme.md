@@ -54,3 +54,6 @@ project_name/project_name/urls.py  to  project_name/app_name/urls.py
 
 
 # goto project_name/project_name/settings.py  → inside of array INSTALLED_APPS add last array element,  'frontend.apps.FrontendConfig', 
+
+
+manege env and all install modules, follow https://www.makeuseof.com/django-project-clone-run-locally/
